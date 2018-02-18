@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
+# 用户
 class UserProfile(AbstractUser):
 
     # 性别选择
@@ -30,6 +31,7 @@ class UserProfile(AbstractUser):
         return self.nickname
 
 
+# 邮箱验证
 class EmailVerifyRecord(models.Model):
     SEND_CHOICES = (('register', u'注册'), ('forget', u'找回密码'))
     code = models.CharField(max_length=20, verbose_name=u'验证码')
@@ -42,6 +44,7 @@ class EmailVerifyRecord(models.Model):
         verbose_name_plural = verbose_name
 
 
+# 轮播图
 class Banner(models.Model):
     title = models.CharField(max_length=100, verbose_name=u'标题')
     image = models.ImageField(
