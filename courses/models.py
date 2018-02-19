@@ -30,6 +30,9 @@ class Course(models.Model):
         verbose_name = u'课程'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.name
+
 
 # 章节信息
 class Lesson(models.Model):
@@ -41,6 +44,9 @@ class Lesson(models.Model):
         verbose_name = u'章节'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return '《{0}》课程的章节 >> {1}'.format(self.course, self.name)
+
 
 # 每章视频
 class Video(models.Model):
@@ -51,6 +57,9 @@ class Video(models.Model):
     class Meta:
         verbose_name = u'视频'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return '{0}章节的视频 >> {1}'.format(self.lesson, self.name)
 
 
 # 课程资源
@@ -67,4 +76,7 @@ class CourseResource(models.Model):
     class Meta:
         verbose_name = u'课程资源'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return '《{0}》课程的资源: {1}'.format(self.course, self.name)
 
