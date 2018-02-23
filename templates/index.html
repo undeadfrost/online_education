@@ -23,22 +23,19 @@
                 <div class="wp">
                     <div class="fl"><p>服务电话：<b>33333333</b></p></div>
                     <!--登录后跳转-->
-
-
-                    <!-- <a style="color:white" class="fr registerbtn" href="register.html">注册</a> -->
-                    <!-- <a style="color:white" class="fr loginbtn" href="login.html">登录</a>  -->
-
+                    {% if request.user.is_authenticated %}
                     <div class="personal">
                         <dl class="user fr">
-                            <dd>bobby<img class="down fr" src="{% static 'images/top_down.png' %}"/></dd>
-                            <dt><img width="20" height="20" src="/static/media/image/2016/12/default_big_14.png"/></dt>
+                            <dd>{{ user.username }}<img class="down fr" src="{% static 'images/top_down.png' %}"/></dd>
+                            <dt><img width="20" height="20" src="{% static 'media/image/2016/12/default_big_14.png' %}"/></dt>
                         </dl>
                         <div class="userdetail">
                             <dl>
-                                <dt><img width="80" height="80" src="/static/media/image/2016/12/default_big_14.png"/></dt>
+                                <dt><img width="80" height="80" src="/static/media/image/2016/12/default_big_14.png"/>
+                                </dt>
                                 <dd>
-                                    <h2>django</h2>
-                                    <p>bobby</p>
+                                    <h2>{{ user.nickname }}</h2>
+                                    <p>{{ user.username }}</p>
                                 </dd>
                             </dl>
                             <div class="btn">
@@ -47,7 +44,10 @@
                             </div>
                         </div>
                     </div>
-
+                    {% else %}
+                    <a style="color:white" class="fr registerbtn" href="{% url 'login' %}">注册</a>
+                    <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
+                    {% endif %}
 
                 </div>
             </div>
@@ -106,13 +106,15 @@
 
                     <li>
                         <a href="http://www.imooc.com">
-                            <img width="1200" height="478" src="/static/media/banner/2016/11/57a801860001c34b12000460.jpg"/>
+                            <img width="1200" height="478"
+                                 src="/static/media/banner/2016/11/57a801860001c34b12000460.jpg"/>
                         </a>
                     </li>
 
                     <li>
                         <a href="http://www.projectsedu.com">
-                            <img width="1200" height="478" src="/static/media/banner/2016/11/57aa86a0000145c512000460.jpg"/>
+                            <img width="1200" height="478"
+                                 src="/static/media/banner/2016/11/57aa86a0000145c512000460.jpg"/>
                         </a>
                     </li>
 
@@ -191,13 +193,15 @@
 
                                 <li>
                                     <a href="course-detail.html">
-                                        <img width="470" height="300" src="/static/media/courses/2016/12/python文件处理.jpg"/>
+                                        <img width="470" height="300"
+                                             src="/static/media/courses/2016/12/python文件处理.jpg"/>
                                     </a>
                                 </li>
 
                                 <li>
                                     <a href="course-detail.html">
-                                        <img width="470" height="300" src="/static/media/courses/2016/12/python面向对象.jpg"/>
+                                        <img width="470" height="300"
+                                             src="/static/media/courses/2016/12/python面向对象.jpg"/>
                                     </a>
                                 </li>
 
