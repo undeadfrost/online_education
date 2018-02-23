@@ -1,10 +1,34 @@
 from django.shortcuts import render
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.backends import ModelBackend
+from django.views.generic.base import View
 from .models import UserProfile
+from .forms import LoginForm
 
 from django.db.models import Q
 # Create your views here.
+
+
+class LoginView(View):
+    @staticmethod
+    def get(request):
+        return render(request, 'users/login.html')
+
+    @staticmethod
+    def post(request):
+        login_form = LoginForm(request.POST)
+
+        if login_form.is_valid():
+            username = request.POST.get('username', '')
+            password = request.POST.get('password', '')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return render(request, 'index.html')
+            else:
+                return render(request, 'users/login.html', {'msg': '用户名或密码错误！'})
+        else:
+            return render(request, 'users/login.html', {'login_form': login_form})
 
 
 class CustomBackend(ModelBackend):
