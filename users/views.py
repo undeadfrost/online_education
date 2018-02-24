@@ -41,6 +41,11 @@ class CustomBackend(ModelBackend):
             return None
 
 
+class RegisterView(View):
+    def get(self, request):
+        return render(request, 'users/register.html')
+
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username', '')
