@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'courses',
     'organization',
     'operation',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -140,4 +141,13 @@ AUTH_USER_MODEL = 'users.UserProfile'
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
 )
+
+# 发送邮件设置
+EMAIL_HOST = 'smtp.qq.com'
+EMAIl_POST = 465
+EMAIL_HOST_USER = '550179354@qq.com'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+EMAIL_FROM = 'undeadfrost'
+
 
