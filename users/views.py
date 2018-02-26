@@ -3,8 +3,9 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
 from django.views.generic.base import View
-from .models import UserProfile
+from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm
+from utils import email_send
 
 from django.db.models import Q
 # Create your views here.
@@ -53,17 +54,36 @@ class RegisterView(View):
             email = request.POST.get('email', '')
             password = request.POST.get('password', '')
 
+            if UserProfile.objects.filter(email=email):
+                return render(request, 'users/register.html', {'msg': '该邮箱已注册'})
+
             user_profile = UserProfile()
             user_profile.username = email
             user_profile.email = email
+            user_profile.is_active = False
 
             user_profile.password = make_password(password)
             user_profile.save()
 
+            email_send.send_register_email(email, 'register')
+            return render(request, 'users/login.html')
+        else:
+            render(request, 'users/register.html', {'register_form': register_form})
+
 
 class ActiveUserView(View):
     def get(self, request, active_code):
-        pass
+        records = EmailVerifyRecord.objects.filter(code=active_code)
+        register_form = RegisterForm()
+        if records:
+            for record in records:
+                email = record.email
+                user_profile = UserProfile.objects.get(email=email)
+                user_profile.is_active = True
+                user_profile.save()
+                return render(request, 'users/login.html')
+        else:
+            return render(request, 'users/register.html', {'register_form': register_form, 'msg': '激活链接无效'})
 
 
 def user_login(request):
