@@ -1,5 +1,6 @@
 from users.models import EmailVerifyRecord
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
+from django.template import loader
 from random import Random, choice
 
 from online_education.settings import EMAIL_FROM
@@ -28,3 +29,15 @@ def send_register_email(email, send_type):
         send_status = send_mail(email_title, email_content, EMAIL_FROM, [email])
         if send_status:
             pass
+    elif send_type == 'forget':
+        email_title = '找回密码测试邮件'
+        email_body = loader.render_to_string(
+            "email/email_forget.html",  # 需要渲染的html模板
+            {
+                "active_code": code  # 参数
+            }
+        )
+        msg = EmailMessage(email_title, email_body, EMAIL_FROM, [email])
+        msg.content_subtype = "html"
+        send_status = msg.send()
+
