@@ -10,9 +10,9 @@ class CityDictAdmin(object):
 
 
 class CourseOrgAdmin(object):
-    list_display = ['name', 'describe', 'click_nums', 'fav_nums', 'add_time']
-    search_fields = ['name', 'describe', 'click_nums', 'fav_nums']
-    list_filter = ['name', 'describe', 'click_nums', 'fav_nums', 'city__name', 'address', 'add_time']
+    list_display = ['name', 'describe', 'category', 'click_nums', 'fav_nums', 'add_time']
+    search_fields = ['name', 'describe', 'category', 'click_nums', 'fav_nums']
+    list_filter = ['name', 'describe', 'category', 'click_nums', 'fav_nums', 'city__name', 'address', 'add_time']
 
 
 class TeacherAdmin(object):

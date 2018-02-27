@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -149,5 +150,9 @@ EMAIL_HOST_USER = '13720737094@163.com'
 EMAIL_HOST_PASSWORD = 'libo1234'
 EMAIL_USE_TLS = True
 EMAIL_FROM = EMAIL_HOST_USER
+
+# 上传文件路径
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
