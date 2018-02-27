@@ -25,9 +25,12 @@ class LoginView(View):
             username = request.POST.get('username', '')
             password = request.POST.get('password', '')
             user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return render(request, 'index.html')
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return render(request, 'index.html')
+                else:
+                    return render(request, 'users/login.html', {'msg': '用户尚未激活'})
             else:
                 return render(request, 'users/login.html', {'msg': '用户名或密码错误！'})
         else:
@@ -71,7 +74,7 @@ class RegisterView(View):
             email_send.send_register_email(email, 'register')
             return render(request, 'users/login.html', {'msg': '请及时在邮箱中查看账号激活邮件'})
         else:
-            render(request, 'users/register.html', {'register_form': register_form})
+            return render(request, 'users/register.html', {'register_form': register_form})
 
 
 # 激活
@@ -85,7 +88,7 @@ class ActiveUserView(View):
                 user_profile = UserProfile.objects.get(email=email)
                 user_profile.is_active = True
                 user_profile.save()
-                return render(request, 'users/login.html')
+                return render(request, 'users/login.html', {'msg': '激活成功请登陆'})
         else:
             return render(request, 'users/register.html', {'register_form': register_form, 'msg': '激活链接无效'})
 
@@ -113,11 +116,8 @@ class ForgetPasswordView(View):
 class ResetPasswordView(View):
     def get(self, request, active_code):
         record_list = EmailVerifyRecord.objects.filter(code=active_code)
-
         if record_list:
-            for record in record_list:
-                email = record.email
-                return render(request, 'users/reset_password.html', {'email': email})
+            return render(request, 'users/reset_password.html', {'code': active_code})
         else:
             return render(request, 'users/forgetpwd.html', {'msg': '重置密码链接失效'})
 
@@ -126,19 +126,20 @@ class ResetPasswordView(View):
 class ModifyPasswordView(View):
     def post(self, request):
         modify_password_form = ModifyPasswordForm(request.POST)
-        email = request.POST.get('email', '')
-        if modify_password_form.is_valid():
+        code = request.POST.get('code', '')
+        email = EmailVerifyRecord.objects.filter(code=code)[0].email
+        if modify_password_form.is_valid() and email:
             password1 = request.POST.get('password1', '')
             password2 = request.POST.get('password2', '')
             if password1 == password2:
-                user_profile = UserProfile.objects.filter(email=email)
+                user_profile = UserProfile.objects.get(email=email)
                 user_profile.password = make_password(password2)
                 user_profile.save()
                 return render(request, 'users/login.html', {'msg': '密码重置成功，请登陆'})
             else:
-                render(request, 'users/reset_password.html', {'email': email, 'msg': '密码不一致'})
+                return render(request, 'users/reset_password.html', {'code': code, 'msg': '密码不一致'})
         else:
-            render(request, 'users/reset_password.html', {'email': email, 'modify_password_form': modify_password_form})
+            return render(request, 'users/reset_password.html', {'code': code, 'modify_password_form': modify_password_form})
 
 
 def user_login(request):

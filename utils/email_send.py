@@ -24,11 +24,15 @@ def send_register_email(email, send_type):
 
     if send_type == 'register':
         email_title = '注册激活测试邮件'
-        email_content = '请点击下面链接进行激活 http://127.0.0.1:8000/active/{0}'.format(code)
-
-        send_status = send_mail(email_title, email_content, EMAIL_FROM, [email])
-        if send_status:
-            pass
+        email_body = loader.render_to_string(
+            "email/email_register.html",  # 需要渲染的html模板
+            {
+                "active_code": code  # 参数
+            }
+        )
+        msg = EmailMessage(email_title, email_body, EMAIL_FROM, [email])
+        msg.content_subtype = "html"
+        send_status = msg.send()
     elif send_type == 'forget':
         email_title = '找回密码测试邮件'
         email_body = loader.render_to_string(

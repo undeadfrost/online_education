@@ -18,7 +18,8 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 import xadmin
 
-from users.views import LoginView, RegisterView, ActiveUserView, ForgetPasswordView, ResetPasswordView, ModifyPasswordView
+from users.views import LoginView, RegisterView, ActiveUserView, ForgetPasswordView, \
+    ResetPasswordView, ModifyPasswordView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
