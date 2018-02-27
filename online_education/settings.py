@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'organization',
     'operation',
     'captcha',
+    'pure_pagination',
 ]
 
 MIDDLEWARE = [
@@ -155,4 +156,10 @@ EMAIL_FROM = EMAIL_HOST_USER
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# 分页模块参数
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 10,
+    'MARGIN_PAGES_DISPLAYED': 2,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
 
