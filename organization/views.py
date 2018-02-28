@@ -64,3 +64,4 @@ class AddUserAskView(View):
         else:
             return HttpResponse('{"status": "fail", "msg": {0}}'.format(user_ask_form.errors),
                                 content_type='application/json')
+
