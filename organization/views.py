@@ -9,7 +9,7 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 
-# 列表页
+# 机构列表
 class OrgListView(View):
     def get(self, request):
         # 获取全部机构信息
@@ -64,4 +64,60 @@ class AddUserAskView(View):
         else:
             return HttpResponse('{"status": "fail", "msg": {0}}'.format(user_ask_form.errors),
                                 content_type='application/json')
+
+
+# 机构详情首页
+class OrgHomeView(View):
+    def get(self, request, org_id):
+        # 向前端传值，表明当前页面
+        current_page = "home"
+        course_org = CourseOrg.objects.get(id=int(org_id))
+        teacher_list = course_org .teacher_set.all()[:2]
+        course_list = course_org .course_set.all()[:4]
+        return render(request, 'organization/org-detail-homepage.html', {
+            'course_list': course_list,
+            'teacher_list': teacher_list,
+            'course_org': course_org,
+            'current_page': current_page,
+        })
+
+
+# 机构课程列表页
+class OrgCourseListView(View):
+    def get(self, request, org_id):
+        # 向前端传值，表明当前页面
+        current_page = "course"
+        course_org = CourseOrg.objects.get(id=int(org_id))
+        all_courses = course_org.course_set.all()
+        return render(request, 'organization/org-detail-course.html', {
+            'course_org': course_org,
+            'org_course_list': all_courses,
+            'current_page': current_page,
+        })
+
+
+# 机构讲师列表页
+class OrgTeacherListView(View):
+    def get(self, request, org_id):
+        # 向前端传值，表明当前页面
+        current_page = "teacher"
+        course_org = CourseOrg.objects.get(id=int(org_id))
+        all_teachers = course_org.teacher_set.all()
+        return render(request, 'organization/org-detail-teachers.html', {
+            'course_org': course_org,
+            'all_teachers': all_teachers,
+            'current_page': current_page,
+        })
+
+
+# 机构详情页
+class OrgDescribeView(View):
+    def get(self, request, org_id):
+        # 向前端传值，表明当前页面
+        current_page = "describe"
+        course_org = CourseOrg.objects.get(id=int(org_id))
+        return render(request, 'organization/org-detail-desc.html',{
+            'course_org': course_org,
+            'current_page': current_page,
+        })
 
