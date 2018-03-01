@@ -1,12 +1,13 @@
 {% extends 'organization/org_base.html' %}
-{% block title %}<title>机构课程列表页</title>{% endblock %}
+{% block title %}<title>机构课程</title>{% endblock %}
+{% block page_path %}机构课程{% endblock %}
 {% block right_form %}
 <div class="right companycenter layout">
             <div class="head">
                 <h1>机构课程</h1>
             </div>
             <div class="brief group_list">
-                {% for course in all_courses %}
+                {% for course in page_courses.object_list %}
                 <div class="module1_5 box">
                     <a class="comp-img-box" href="course-detail.html">
 
@@ -30,10 +31,26 @@
                 {% endfor %}
             </div>
             <div class="pageturn">
-                <ul class="pagelist">
-                    <li class="active"><a href="?page=1">1</a></li>
-                </ul>
-            </div>
+                    <ul class="pagelist">
+                        {% if page_courses.has_previous %}
+                        <li class="long"><a href="?{{ page_courses.previous_page_number.querystring }}">下一页</a></li>
+                        {% endif %}
+                        {% for page in page_courses.pages %}
+                            {% if page %}
+                                {% ifequal page page_courses.number %}
+                                <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                {% else %}
+                                <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                {% endifequal %}
+                            {% else %}
+                            <li class="none"><a href="">...</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_courses.has_next %}
+                        <li class="long"><a href="?{{ page_courses.next_page_number.querystring }}">下一页</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
         </div>
 {% endblock %}
 

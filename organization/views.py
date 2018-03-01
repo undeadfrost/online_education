@@ -89,9 +89,16 @@ class OrgCourseListView(View):
         current_page = "course"
         course_org = CourseOrg.objects.get(id=int(org_id))
         all_courses = course_org.course_set.all()
+        # 分页，每页20条数据
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(all_courses, per_page=20, request=request)
+        page_courses = p.page(page)
         return render(request, 'organization/org-detail-course.html', {
             'course_org': course_org,
-            'org_course_list': all_courses,
+            'page_courses': page_courses,
             'current_page': current_page,
         })
 
@@ -103,9 +110,16 @@ class OrgTeacherListView(View):
         current_page = "teacher"
         course_org = CourseOrg.objects.get(id=int(org_id))
         all_teachers = course_org.teacher_set.all()
+        # 分页，每页5条数据
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(all_teachers, per_page=1, request=request)
+        page_teachers = p.page(page)
         return render(request, 'organization/org-detail-teachers.html', {
             'course_org': course_org,
-            'all_teachers': all_teachers,
+            'page_teachers': page_teachers,
             'current_page': current_page,
         })
 
