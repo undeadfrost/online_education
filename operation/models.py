@@ -34,9 +34,9 @@ class CourseComments(models.Model):
 # 用户收藏
 class UserFavorite(models.Model):
     TYPE_CHOICES = (
-        ('1', u'课程'),
-        ('2', u'课程机构'),
-        ('3', u'讲师')
+        (1, u'课程'),
+        (2, u'课程机构'),
+        (3, u'讲师')
     )
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name=u'用户')
     fav_id = models.IntegerField(default=0)
@@ -50,6 +50,9 @@ class UserFavorite(models.Model):
     class Meta:
         verbose_name = u'用户收藏'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return '用户({0})收藏了{1} '.format(self.user, self.fav_type)
 
 
 # 用户消息
