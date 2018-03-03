@@ -36,4 +36,5 @@ urlpatterns = [
     path('reset/<str:active_code>/', ResetPasswordView.as_view(), name='reset_password'),
     path('modify_password/', ModifyPasswordView.as_view(), name='modify_password'),
     path('organization/', include('organization.urls')),
+    path('course/', include('course.urls')),
 ]
