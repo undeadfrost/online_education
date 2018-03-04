@@ -21,7 +21,7 @@ class Course(models.Model):
     students = models.IntegerField(default=0, verbose_name=u'学习人数')
     fav_nums = models.IntegerField(default=0, verbose_name=u'收藏人数')
     image = models.ImageField(
-        upload_to='course/%Y/%m',
+        upload_to='courses/%Y/%m',
         verbose_name=u'封面图',
         max_length=100
     )
@@ -69,7 +69,7 @@ class CourseResource(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name=u'课程名称')
     name = models.CharField(max_length=100, verbose_name=u'资源名称')
     download = models.FileField(
-        upload_to='course/resource/%Y/%m',
+        upload_to='courses/resource/%Y/%m',
         verbose_name=u'资源文件',
         max_length=100
     )

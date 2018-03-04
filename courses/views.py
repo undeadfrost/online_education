@@ -7,4 +7,4 @@ from .models import Course
 class CourseListView(View):
     def get(self, request):
         course_list = Course.objects.all()
-        return render(request, 'course/course-list.html', {'course_list': course_list})
+        return render(request, 'courses/courses-list.html', {'course_list': course_list})

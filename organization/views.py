@@ -34,7 +34,7 @@ class OrgListView(View):
         if sort:
             if sort == "students":
                 org_all = org_all.order_by("-students")
-            elif sort == "course":
+            elif sort == "courses":
                 org_all = org_all.order_by("-course_nums")
         # 获取符合条件的机构总数
         org_nums = org_all.count()
@@ -188,6 +188,3 @@ class AddFavView(View):
         else:
             return HttpResponse('{"status": "fail", "msg": "收藏错误"}',
                                 content_type='application/json')
-
-
-

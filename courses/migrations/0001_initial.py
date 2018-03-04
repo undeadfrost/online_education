@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('learn_time', models.IntegerField(default=0, verbose_name='学习时长(分钟)')),
                 ('students', models.IntegerField(default=0, verbose_name='学习人数')),
                 ('fav_nums', models.IntegerField(default=0, verbose_name='收藏人数')),
-                ('image', models.ImageField(upload_to='course/%Y/%m', verbose_name='封面图')),
+                ('image', models.ImageField(upload_to='courses/%Y/%m', verbose_name='封面图')),
                 ('click_nums', models.IntegerField(default=0, verbose_name='点击量')),
                 ('add_time', models.DateTimeField(default=datetime.datetime.now, verbose_name='添加时间')),
             ],
@@ -38,9 +38,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100, verbose_name='资源名称')),
-                ('download', models.FileField(upload_to='course/resource/%Y/%m', verbose_name='资源文件')),
+                ('download', models.FileField(upload_to='courses/resource/%Y/%m', verbose_name='资源文件')),
                 ('add_time', models.DateTimeField(default=datetime.datetime.now, verbose_name='添加时间')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='course.Course', verbose_name='课程名称')),
+                ('courses', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='courses.Course', verbose_name='课程名称')),
             ],
             options={
                 'verbose_name': '课程资源',
@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100, verbose_name='章节名称')),
                 ('add_time', models.DateTimeField(default=datetime.datetime.now, verbose_name='添加时间')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='course.Course', verbose_name='课程名称')),
+                ('courses', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='courses.Course', verbose_name='课程名称')),
             ],
             options={
                 'verbose_name': '章节',
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100, verbose_name='视频名称')),
                 ('add_time', models.DateTimeField(default=datetime.datetime.now, verbose_name='添加时间')),
-                ('lesson', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='course.Lesson', verbose_name='章节名称')),
+                ('lesson', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='courses.Lesson', verbose_name='章节名称')),
             ],
             options={
                 'verbose_name': '视频',

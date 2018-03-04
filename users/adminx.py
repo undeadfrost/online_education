@@ -5,7 +5,7 @@ from xadmin.models import Log
 from xadmin import views
 
 from .models import UserProfile, EmailVerifyRecord, Banner
-from course.models import Course, Video, Lesson, CourseResource
+from courses.models import Course, Video, Lesson, CourseResource
 from operation.models import CourseComments, UserFavorite, UserMessage, UserCourse, UserAsk
 from organization.models import CityDict, Teacher, CourseOrg
 
