@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %}<title>公开课列表 - 慕学在线网</title>{% endblock %}
+{% block custom_bread %}
+<section>
+    <div class="wp">
+        <ul class="crumbs">
+            <li><a href="{% url 'index' %}">首页</a>></li>
+            <li>公开课</li>
+        </ul>
+    </div>
+</section>
+{% endblock %}
 {% block main_content %}
 <section>
     <div class="wp">
@@ -18,7 +28,7 @@
                         <div class="group_list">
                             {% for course in page_courses.object_list %}
                             <div class="box">
-                                <a href="course-detail.html">
+                                <a href="{% url 'courses:course_detail' course.id %}">
                                     <img width="280" height="350" class="scrollLoading"
                                          src="{{ MEDIA_URL }}{{ course.image }}"/>
                                 </a>

@@ -6,6 +6,7 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 
+# 课程列表
 class CourseListView(View):
     def get(self, request):
         all_course = Course.objects.all()
@@ -30,4 +31,13 @@ class CourseListView(View):
             'page_courses': page_courses,
             'sort': sort,
             'hot_courses': hot_courses,
+        })
+
+
+# 课程详情
+class CourseDetailView(View):
+    def get(self, request, course_id):
+        course = Course.objects.get(id=int(course_id))
+        return render(request, 'courses/course-detail.html', {
+            'course': course
         })
