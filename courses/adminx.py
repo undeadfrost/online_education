@@ -10,8 +10,8 @@ class CourseAdmin(object):
 
 
 class LessonAdmin(object):
-    list_display = ['courses', 'name', 'add_time']
-    search_fields = ['courses', 'name']
+    list_display = ['course', 'name', 'add_time']
+    search_fields = ['course', 'name']
     list_filter = ['course__name', 'name', 'add_time']
 
 
@@ -22,8 +22,8 @@ class VideoAdmin(object):
 
 
 class CourseResourceAdmin(object):
-    list_display = ['courses', 'name', 'download', 'add_time']
-    search_fields = ['courses', 'name', 'download']
+    list_display = ['course', 'name', 'download', 'add_time']
+    search_fields = ['course', 'name', 'download']
     list_filter = ['course__name', 'name', 'download', 'add_time']
 
 

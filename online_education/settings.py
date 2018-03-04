@@ -87,10 +87,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'online_education',
-        'USER': 'libo',
-        'PASSWORD': 'libo1121X',
-        'HOST': '120.78.187.72',
-        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': '127.0.0.1',
+        'PORT': '6666',
     }
 }
 

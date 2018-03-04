@@ -10,9 +10,9 @@ class UserAskAdmin(object):
 
 
 class CourseCommentsAdmin(object):
-    list_display = ['courses', 'user', 'comments', 'add_time']
-    search_fields = ['courses', 'user', 'comments']
-    list_filter = ['courses', 'user', 'comments', 'add_time']
+    list_display = ['course', 'user', 'comments', 'add_time']
+    search_fields = ['course', 'user', 'comments']
+    list_filter = ['course', 'user', 'comments', 'add_time']
 
 
 class UserFavoriteAdmin(object):
@@ -28,9 +28,9 @@ class UserMessageAdmin(object):
 
 
 class UserCourseAdmin(object):
-    list_display = ['user', 'courses', 'add_time']
-    search_fields = ['user', 'courses']
-    list_filter = ['user', 'courses', 'add_time']
+    list_display = ['user', 'course', 'add_time']
+    search_fields = ['user', 'course']
+    list_filter = ['user', 'course', 'add_time']
 
 
 xadmin.site.register(UserAsk, UserAskAdmin)
