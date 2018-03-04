@@ -34,7 +34,7 @@ class OrgListView(View):
         if sort:
             if sort == "students":
                 org_all = org_all.order_by("-students")
-            elif sort == "courses":
+            elif sort == "course":
                 org_all = org_all.order_by("-course_nums")
         # 获取符合条件的机构总数
         org_nums = org_all.count()
