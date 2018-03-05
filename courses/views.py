@@ -60,3 +60,9 @@ class CourseDetailView(View):
             'hav_fav_course': hav_fav_course,
             'hav_fav_org': hav_fav_org,
         })
+
+
+# 课程章节信息
+class CourseInfoView(View):
+    def get(self, request, course_id):
+        return render(request, 'courses/course-video.html')
