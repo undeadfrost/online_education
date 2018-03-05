@@ -27,6 +27,7 @@ class Course(models.Model):
     )
     click_nums = models.IntegerField(default=0, verbose_name=u'点击量')
     category = models.CharField(max_length=20, default=u'', verbose_name=u'课程类别')
+    tag = models.CharField(max_length=20, default=u'', verbose_name=u'课程标签')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
 
     def get_learn_users(self):
