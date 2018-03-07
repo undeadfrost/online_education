@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 
 from django.contrib.auth.models import AbstractUser
+from utils.storage import ImageStorage
 # Create your models here.
 
 
@@ -21,7 +22,12 @@ class UserProfile(AbstractUser):
     # 电话
     mobile = models.CharField(max_length=11, verbose_name=u'电话', null=True, blank=True)
     # 头像
-    image = models.ImageField(upload_to='image/%Y/%m', default='image/default.png', max_length=100)
+    image = models.ImageField(
+        upload_to='image/%Y/%m',
+        default='image/default.png',
+        max_length=100,
+        storage=ImageStorage()
+    )
 
     class Meta(AbstractUser.Meta):
         verbose_name = u'用户信息'

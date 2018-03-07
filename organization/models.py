@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.db import models
 
+from utils.storage import ImageStorage
+
 # Create your models here.
 
 
@@ -32,7 +34,8 @@ class CourseOrg(models.Model):
     image = models.ImageField(
         upload_to='org/%Y/%m',
         verbose_name=u'封面图',
-        max_length=100
+        max_length=100,
+        storage=ImageStorage()
     )
     address = models.CharField(max_length=150, verbose_name=u'机构地址')
     city = models.ForeignKey(CityDict, on_delete=models.CASCADE, verbose_name=u'所在城市')
@@ -64,6 +67,7 @@ class Teacher(models.Model):
         upload_to='teacher/%Y/%m',
         verbose_name=u'头像',
         max_length=100,
+        storage=ImageStorage()
     )
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
 

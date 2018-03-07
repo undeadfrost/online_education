@@ -42,7 +42,7 @@ class CourseDetailView(View):
         course.click_nums += 1
         course.save()
         if course.tag:
-            relate_courses = Course.objects.get(tag=course.tag)[1:2]
+            relate_courses = Course.objects.filter(tag=course.tag)[1:2]
         else:
             relate_courses = []
         hav_fav_course = False
@@ -65,4 +65,7 @@ class CourseDetailView(View):
 # 课程章节信息
 class CourseInfoView(View):
     def get(self, request, course_id):
-        return render(request, 'courses/course-video.html')
+        course = Course.objects.get(id=int(course_id))
+        return render(request, 'courses/course-video.html', {
+            'course': course,
+        })
