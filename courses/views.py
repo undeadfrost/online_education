@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views import View
+from django.http import HttpResponse
 from .models import Course
-from operation.models import UserFavorite
+from operation.models import UserFavorite, CourseComments
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
@@ -69,3 +70,38 @@ class CourseInfoView(View):
         return render(request, 'courses/course-video.html', {
             'course': course,
         })
+
+
+# 课程评论信息
+class CommentsView(View):
+    def get(self, request, course_id):
+        course = Course.objects.get(id=int(course_id))
+        all_comments = course.coursecomments_set.all()
+        return render(request, 'courses/course-comment.html', {
+            'course': course,
+            'all_comments': all_comments,
+        })
+
+
+# 添加课程评论
+class AddCommentsView(View):
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return HttpResponse('{"status": "fail", "msg": "用户未登录"}',
+                                content_type='application/json')
+        course_id = request.POST.get('course_id', '')
+        comments = request.POST.get('comments', '')
+        if course_id and comments:
+            course_comments = CourseComments()
+            course_comments.course = Course.objects.get(id=int(course_id))
+            course_comments.user = request.user
+            course_comments.comments = comments
+            course_comments.save()
+            return HttpResponse('{"status": "success", "msg": "评论成功"}',
+                                content_type='application/json')
+        else:
+            return HttpResponse('{"status": "success}, "msg": "评论失败"}',
+                                content_type='application/json')
+
+
+
