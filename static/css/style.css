@@ -3518,11 +3518,11 @@ footer .footer .line {
 }
 
 .butler_list_box .right dd {
-    width: 80px;
+    /* width: 80px; */
     height: 50px;
     margin-top: 10px;
     line-height: 150%;
-    float: right;
+    float: left;
 }
 
 .picbig.key {
