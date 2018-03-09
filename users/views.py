@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from django.urls import reverse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
 from django.views.generic.base import View
+from django.http import HttpResponseRedirect
 from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetPasswordForm, ModifyPasswordForm
 from utils import email_send
@@ -15,7 +17,8 @@ from django.db.models import Q
 class LoginView(View):
     @staticmethod
     def get(request):
-        return render(request, 'users/login.html')
+        redirect_url = request.GET.get('next', '')
+        return render(request, 'users/login.html', {'redirect_url': redirect_url})
 
     @staticmethod
     def post(request):
@@ -24,11 +27,16 @@ class LoginView(View):
         if login_form.is_valid():
             username = request.POST.get('username', '')
             password = request.POST.get('password', '')
+
             user = authenticate(username=username, password=password)
+
             if user:
                 if user.is_active:
                     login(request, user)
-                    return render(request, 'index.html')
+                    redirect_url = request.POST.get('next', '')
+                    if redirect_url:
+                        return HttpResponseRedirect(redirect_url)
+                    return HttpResponseRedirect(reverse('index'))
                 else:
                     return render(request, 'users/login.html', {'msg': '用户尚未激活'})
             else:

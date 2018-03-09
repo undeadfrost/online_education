@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from .models import Course
-from operation.models import UserFavorite, CourseComments
+from operation.models import UserFavorite, CourseComments, UserCourse
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
@@ -64,22 +65,45 @@ class CourseDetailView(View):
 
 
 # 课程章节信息
-class CourseInfoView(View):
+class CourseInfoView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
+
+        # 获取学习该课程其他用户还参与哪些课程学习
+        user_courses = UserCourse.objects.filter(course=course)
+        user_ids = [user_course.user_id for user_course in user_courses]
+        all_user_courses = UserCourse.objects.filter(user_id__in=user_ids)
+        course_ids = [user_course.course.id for user_course in all_user_courses]
+        relate_courses = Course.objects.filter(id__in=course_ids).order_by('-click_nums')[:5]
+
         return render(request, 'courses/course-video.html', {
             'course': course,
         })
 
 
 # 课程评论信息
-class CommentsView(View):
+class CommentsView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
+
+        # 获取学习该课程其他用户还参与哪些课程学习
+        user_courses = UserCourse.objects.filter(course=course)
+        user_ids = [user_course.user_id for user_course in user_courses]
+        all_user_courses = UserCourse.objects.filter(user_id__in=user_ids)
+        course_ids = [user_course.course.id for user_course in all_user_courses]
+        relate_courses = Course.objects.filter(id__in=course_ids).order_by('-click_nums')[:5]
+
         all_comments = course.coursecomments_set.all()
         return render(request, 'courses/course-comment.html', {
             'course': course,
             'all_comments': all_comments,
+            'relate_courses': relate_courses,
         })
 
 
