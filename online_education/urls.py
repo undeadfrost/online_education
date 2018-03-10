@@ -37,4 +37,5 @@ urlpatterns = [
     path('modify_password/', ModifyPasswordView.as_view(), name='modify_password'),
     path('organization/', include('organization.urls')),
     path('courses/', include('courses.urls')),
+    path('users/', include('users.urls')),
 ]

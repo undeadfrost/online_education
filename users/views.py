@@ -5,8 +5,10 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
 from django.views.generic.base import View
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import UserProfile, EmailVerifyRecord
-from .forms import LoginForm, RegisterForm, ForgetPasswordForm, ModifyPasswordForm
+from .forms import LoginForm, RegisterForm, ForgetPasswordForm, ModifyPasswordForm, \
+    UploadImageForm
 from utils import email_send
 
 from django.db.models import Q
@@ -148,6 +150,25 @@ class ModifyPasswordView(View):
                 return render(request, 'users/reset_password.html', {'code': code, 'msg': '密码不一致'})
         else:
             return render(request, 'users/reset_password.html', {'code': code, 'modify_password_form': modify_password_form})
+
+
+# 用户个人信息
+class UserInfoView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    def get(self, request):
+        return render(request, 'users/usercenter-info.html')
+
+
+class UploadImageView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    def post(self, request):
+        image_form = UploadImageForm(request.POST, request.FILES)
+        if image_form.is_valid():
+            pass
 
 
 def user_login(request):
