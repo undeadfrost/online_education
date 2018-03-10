@@ -33,7 +33,7 @@
             <div class="pageturn">
                     <ul class="pagelist">
                         {% if page_courses.has_previous %}
-                        <li class="long"><a href="?{{ page_courses.previous_page_number.querystring }}">下一页</a></li>
+                        <li class="long"><a href="?{{ page_courses.previous_page_number.querystring }}">上一页</a></li>
                         {% endif %}
                         {% for page in page_courses.pages %}
                             {% if page %}

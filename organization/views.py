@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.http import HttpResponse
+from django.db.models import Q
 
 from .models import CourseOrg, CityDict, Teacher
 from .forms import UserAskForm
@@ -21,6 +22,11 @@ class OrgListView(View):
         city_id = request.GET.get('city', '')
         # 获取url中category参数
         category = request.GET.get('category', '')
+        # 搜索
+        search_keywords = request.GET.get('keywords', '')
+        if search_keywords:
+            org_all = org_all.filter(Q(name__icontains=search_keywords) |
+                                     Q(describe__icontains=search_keywords))
         # 根据city查询符合条件机构信息
         if city_id:
             org_all = org_all.filter(city_id=int(city_id))
@@ -50,6 +56,7 @@ class OrgListView(View):
             'org_nums': org_nums, 'city_id': city_id,
             'category': category, 'hot_org_list': hot_org_list,
             'sort': sort,
+            'search_keywords': search_keywords,
         })
 
 
