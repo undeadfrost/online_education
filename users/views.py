@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
 from django.views.generic.base import View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetPasswordForm, ModifyPasswordForm, \
@@ -166,9 +166,36 @@ class UploadImageView(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     def post(self, request):
-        image_form = UploadImageForm(request.POST, request.FILES)
+        image_form = UploadImageForm(request.POST, request.FILES, instance=request.user)
         if image_form.is_valid():
-            pass
+            image_form.save()
+            return HttpResponse('{"status": "success"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status": "success"}', content_type='application/json')
+
+
+# 用户中心修改密码
+class UpdatePasswordView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    def post(self, request):
+        modify_password_form = ModifyPasswordForm(request.POST)
+        if modify_password_form.is_valid():
+            password1 = request.POST.get('password1', '')
+            password2 = request.POST.get('password2', '')
+            if password1 != password2:
+                return HttpResponse('{"status": "fail", "msg": "两次输入密码不一致"}',
+                                    content_type='application/json')
+            else:
+                user = request.user
+                user.password = make_password(password2)
+                user.save()
+                return HttpResponse('{"status": "success", "msg": "密码修改成功过"}',
+                                    content_type='application/json')
+        else:
+            return HttpResponse('{"status": "fail", "msg": "密码格式有误"}',
+                                content_type='application/json')
 
 
 def user_login(request):
