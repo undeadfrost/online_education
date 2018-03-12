@@ -198,6 +198,39 @@ class UpdatePasswordView(LoginRequiredMixin, View):
                                 content_type='application/json')
 
 
+# 发送修改邮箱验证码
+class SendMailCodeView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    def get(self, request):
+        email = request.GET.get('email', '')
+
+        if UserProfile.objects.filter(email=email):
+            return HttpResponse('{"email": "邮箱已被注册"}', content_type='application/json')
+        else:
+            email_send.send_register_email(email, 'update_email')
+            return HttpResponse('{"status": "success"}', content_type='application/json')
+
+
+# 用户中心修改邮箱
+class UpdateEmailView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    def post(self, request):
+        email = request.POST.get('email', '')
+        code = request.POST.get('code', '')
+
+        if EmailVerifyRecord.objects.filter(email=email, code=code, send_type='update_email'):
+            user = request.user
+            user.email = email
+            user.save()
+            return HttpResponse('{"status", "success"}', content_type='application/json')
+        else:
+            return HttpResponse('{"email": "验证码无效"}', content_type='application/json')
+
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username', '')

@@ -39,10 +39,10 @@ class UserProfile(AbstractUser):
 
 # 邮箱验证
 class EmailVerifyRecord(models.Model):
-    SEND_CHOICES = (('register', u'注册'), ('forget', u'找回密码'))
+    SEND_CHOICES = (('register', u'注册'), ('forget', u'找回密码'), ('update_email', u'邮箱验证码'))
     code = models.CharField(max_length=20, verbose_name=u'验证码')
     email = models.EmailField(max_length=50, verbose_name=u'邮箱')
-    send_type = models.CharField(max_length=10, choices=SEND_CHOICES, verbose_name=u'验证码类型')
+    send_type = models.CharField(max_length=20, choices=SEND_CHOICES, verbose_name=u'验证码类型')
     send_time = models.DateTimeField(default=datetime.now, verbose_name=u'发送时间')
 
     class Meta:

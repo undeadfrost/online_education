@@ -44,4 +44,16 @@ def send_register_email(email, send_type):
         msg = EmailMessage(email_title, email_body, EMAIL_FROM, [email])
         msg.content_subtype = "html"
         send_status = msg.send()
+    elif send_type == 'update_email':
+        email_title = '修改邮箱验证码'
+        email_body = loader.render_to_string(
+            "email/email_update.html",  # 需要渲染的html模板
+            {
+                "active_code": code  # 参数
+            }
+        )
+        msg = EmailMessage(email_title, email_body, EMAIL_FROM, [email])
+        msg.content_subtype = "html"
+        send_status = msg.send()
+
 
