@@ -21,7 +21,7 @@ import xadmin
 
 from .settings import MEDIA_ROOT
 from users.views import LoginView, RegisterView, ActiveUserView, ForgetPasswordView, \
-    ResetPasswordView, ModifyPasswordView
+    ResetPasswordView, ModifyPasswordView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +29,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('media/<path:path>/', serve, {'document_root': MEDIA_ROOT}),
     path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
     path('captcha/', include('captcha.urls')),
     path('active/<str:active_code>/', ActiveUserView.as_view(), name='user_active'),

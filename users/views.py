@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
 from django.views.generic.base import View
@@ -50,6 +50,14 @@ class LoginView(View):
                 return render(request, 'users/login.html', {'msg': '用户名或密码错误！'})
         else:
             return render(request, 'users/login.html', {'login_form': login_form})
+
+
+# 登出
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        # 重定向首页
+        return HttpResponseRedirect(reverse('index'))
 
 
 # 实现用户名邮箱均可登录
