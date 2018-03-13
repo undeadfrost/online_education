@@ -9,12 +9,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetPasswordForm, ModifyPasswordForm, \
     UploadImageForm, UserInfoForm
-from operation.models import UserCourse, UserFavorite
+from operation.models import UserCourse, UserFavorite, UserMessage
 from organization.models import CourseOrg, Teacher
 from courses.models import Course
 from utils import email_send
 
 from django.db.models import Q
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 import json
 # Create your views here.
 
@@ -84,6 +85,12 @@ class RegisterView(View):
 
             user_profile.password = make_password(password)
             user_profile.save()
+
+            # 注册发送欢迎消息
+            user_message = UserMessage()
+            user_message.user = user_profile.id
+            user_message.message = '欢迎注册!'
+            user_message.save()
 
             email_send.send_register_email(email, 'register')
             return render(request, 'users/login.html', {'msg': '请及时在邮箱中查看账号激活邮件'})
@@ -293,6 +300,30 @@ class MyFavView(LoginRequiredMixin, View):
         teacher_ids = [user_favorite.fav_id for user_favorite in user_favorites]
         fav_teachers = Teacher.objects.filter(id__in=teacher_ids)
         return fav_teachers
+
+
+# 我的消息
+class MyMessageView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    def get(self, request):
+        all_messages = UserMessage.objects.filter(user=request.user.id)
+        # 进入消息页面，清空未读消息
+        unread_messages = UserMessage.objects.filter(user=request.user.id, has_read=False)
+        for unread_message in unread_messages:
+            unread_message.has_read = True
+            unread_message.save()
+        # 分页，每页10条数据
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(all_messages, per_page=10, request=request)
+        page_messages = p.page(page)
+        return render(request, 'users/usercenter-message.html', {
+            'page_messages': page_messages,
+        })
 
 
 def user_login(request):

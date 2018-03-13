@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import UserInfoView, UploadImageView, UpdatePasswordView, \
-    SendMailCodeView, UpdateEmailView, MyCourseView, MyFavView
+    SendMailCodeView, UpdateEmailView, MyCourseView, MyFavView, MyMessageView
 
 app_name = 'users'
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('update/email/', UpdateEmailView.as_view(), name='update_email'),
     path('courses/', MyCourseView.as_view(), name='user_courses'),
     path('fav/<int:fav_type>/', MyFavView.as_view(), name='user_fav'),
+    path('message/', MyMessageView.as_view(), name='user_message'),
 ]
