@@ -80,6 +80,14 @@ class CourseInfoView(LoginRequiredMixin, View):
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
 
+        # 判断用户是否开始学习该课程，若未学习则添加进用户课程表
+        if not UserCourse.objects.filter(course=course, user=request.user):
+            user_course = UserCourse(course=course, user=request.user)
+            user_course.save()
+            # 该课程学习人数加一
+            course.students += 1
+            course.save()
+
         # 获取学习该课程其他用户还参与哪些课程学习
         user_courses = UserCourse.objects.filter(course=course)
         user_ids = [user_course.user_id for user_course in user_courses]

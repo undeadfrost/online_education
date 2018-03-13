@@ -8,10 +8,14 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetPasswordForm, ModifyPasswordForm, \
-    UploadImageForm
+    UploadImageForm, UserInfoForm
+from operation.models import UserCourse, UserFavorite
+from organization.models import CourseOrg, Teacher
+from courses.models import Course
 from utils import email_send
 
 from django.db.models import Q
+import json
 # Create your views here.
 
 
@@ -152,7 +156,7 @@ class ModifyPasswordView(View):
             return render(request, 'users/reset_password.html', {'code': code, 'modify_password_form': modify_password_form})
 
 
-# 用户个人信息
+# 用户个人资料
 class UserInfoView(LoginRequiredMixin, View):
     login_url = '/login/'
     redirect_field_name = 'next'
@@ -160,7 +164,16 @@ class UserInfoView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'users/usercenter-info.html')
 
+    def post(self, request):
+        user_info_form = UserInfoForm(request.POST, instance=request.user)
+        if user_info_form.is_valid():
+            user_info_form.save()
+            return HttpResponse('{"status": "success"}', content_type='application/json')
+        else:
+            return HttpResponse(json.dumps(user_info_form.errors), content_type='application/json')
 
+
+# 用户中心上传头像
 class UploadImageView(LoginRequiredMixin, View):
     login_url = '/login/'
     redirect_field_name = 'next'
@@ -229,6 +242,57 @@ class UpdateEmailView(LoginRequiredMixin, View):
             return HttpResponse('{"status", "success"}', content_type='application/json')
         else:
             return HttpResponse('{"email": "验证码无效"}', content_type='application/json')
+
+
+# 用户中心我的课程
+class MyCourseView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    def get(self, request):
+        user_courses = UserCourse.objects.filter(user=request.user)
+        courses = [user_course.course for user_course in user_courses]
+        return render(request, 'users/usercenter-mycourse.html', {
+            'courses': courses
+        })
+
+
+# 我的收藏
+class MyFavView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    def get(self, request, fav_type):
+        if fav_type == 1:
+            fav_courses = self.fav_course(request)
+            return render(request, 'users/usercenter-fav-course.html', {'fav_courses': fav_courses})
+        if fav_type == 2:
+            fav_orgs = self.fav_org(request)
+            return render(request, 'users/usercenter-fav-org.html', {'fav_orgs': fav_orgs})
+        if fav_type == 3:
+            fav_teachers = self.fav_teacher(request)
+            return render(request, 'users/usercenter-fav-teacher.html', {'fav_teachers': fav_teachers})
+
+    # 获取课程收藏列表
+    def fav_course(self, request):
+        user_favorites = UserFavorite.objects.filter(user=request.user, fav_type=1)
+        course_ids = [user_favorite.fav_id for user_favorite in user_favorites]
+        fav_courses = Course.objects.filter(id__in=course_ids)
+        return fav_courses
+
+    # 获取机构收藏列表
+    def fav_org(self, request):
+        user_favorites = UserFavorite.objects.filter(user=request.user, fav_type=2)
+        org_ids = [user_favorite.fav_id for user_favorite in user_favorites]
+        fav_orgs = CourseOrg.objects.filter(id__in=org_ids)
+        return fav_orgs
+
+    # 获取教师收藏列表
+    def fav_teacher(self, request):
+        user_favorites = UserFavorite.objects.filter(user=request.user, fav_type=3)
+        teacher_ids = [user_favorite.fav_id for user_favorite in user_favorites]
+        fav_teachers = Teacher.objects.filter(id__in=teacher_ids)
+        return fav_teachers
 
 
 def user_login(request):

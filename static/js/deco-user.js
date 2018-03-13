@@ -135,22 +135,22 @@ $(function(){
 
     laydate({
         elem: '#birth_day',
-        format: 'YYYY-MM-DD',
+        format: 'YYYY/MM/DD',
         max: laydate.now()
     });
 
     verify(
         [
-            {id: '#nick_name', tips: Dml.Msg.epNickName, require: true}
+            {id: '#nickname', tips: Dml.Msg.epNickName, require: true}
         ]
     );
     //保存个人资料
-    $('#jsEditUserBtn').on('click', function(){
+    $('#jsEditUserBtn').click(function(){
         var _self = $(this),
             $jsEditUserForm = $('#jsEditUserForm')
             verify = verifySubmit(
             [
-                {id: '#nick_name', tips: Dml.Msg.epNickName, require: true}
+                {id: '#nickname', tips: Dml.Msg.epNickName, require: true}
             ]
         );
         if(!verify){
@@ -168,13 +168,13 @@ $(function(){
                 _self.attr('disabled',true);
             },
             success: function(data) {
-                if(data.nick_name){
-                    _showValidateError($('#nick_name'), data.nick_name);
-                }else if(data.birday){
-                   _showValidateError($('#birth_day'), data.birday);
+                if(data.nickname){
+                    _showValidateError($('#nickname'), data.nickname);
+                }else if(data.birthday){
+                   _showValidateError($('#birth_day'), data.birthday);
                 }else if(data.address){
                    _showValidateError($('#address'), data.address);
-                }else if(data.status == "failure"){
+                }else if(data.status == "fail"){
                      Dml.fun.showTipsDialog({
                         title: '保存失败',
                         h2: data.msg
@@ -193,6 +193,4 @@ $(function(){
             }
         });
     });
-
-
 });
