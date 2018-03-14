@@ -6,6 +6,7 @@ from django.db.models import Q
 from .models import CourseOrg, CityDict, Teacher
 from .forms import UserAskForm
 from operation.models import UserFavorite
+from courses.models import Course
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
@@ -80,6 +81,9 @@ class OrgHomeView(View):
         # 向前端传值，表明当前页面
         current_page = 'home'
         course_org = CourseOrg.objects.get(id=int(org_id))
+        # 机构页面点击增加
+        course_org.click_nums += 1
+        course_org.save()
         teacher_list = course_org .teacher_set.all()[:2]
         course_list = course_org .course_set.all()[:4]
         # 必须是用户已登录我们才需要判断。
@@ -181,6 +185,7 @@ class AddFavView(View):
         # 取消收藏
         if exist_records:
             exist_records.delete()
+            self.delete_fav(fav_id, fav_type)
             return HttpResponse('{"status": "success", "msg": "已取消收藏"}',
                                 content_type='application/json')
         # 收藏
@@ -190,11 +195,48 @@ class AddFavView(View):
             user_favorite.fav_id = fav_id
             user_favorite.fav_type = fav_type
             user_favorite.save()
+            self.insert_fav(fav_id, fav_type)
             return HttpResponse('{"status": "success", "msg": "已收藏"}',
                                 content_type='application/json')
         else:
             return HttpResponse('{"status": "fail", "msg": "收藏错误"}',
                                 content_type='application/json')
+
+    # 收藏数统计(取消收藏-1)
+    def delete_fav(self, fav_id, fav_type):
+        if int(fav_type) == 1:
+            course = Course.objects.get(id=int(fav_id))
+            course.fav_nums -= 1
+            if course.fav_nums < 0:
+                course.fav_nums = 0
+            course.save()
+        if int(fav_type) == 2:
+            org = CourseOrg.objects.get(id=int(fav_id))
+            org.fav_nums -= 1
+            if org.fav_nums < 0:
+                org.fav_nums = 0
+            org.save()
+        if int(fav_type) == 3:
+            teacher = Teacher.objects.get(id=int(fav_id))
+            teacher.fav_nums -= 1
+            if teacher.fav_nums < 0:
+                teacher.fav_nums = 0
+            teacher.save()
+
+    # 收藏数统计(点击收藏+1)
+    def insert_fav(self, fav_id, fav_type):
+        if int(fav_type) == 1:
+            course = Course.objects.get(id=int(fav_id))
+            course.fav_nums += 1
+            course.save()
+        if int(fav_type) == 2:
+            org = CourseOrg.objects.get(id=int(fav_id))
+            org.fav_nums += 1
+            org.save()
+        if int(fav_type) == 3:
+            teacher = Teacher.objects.get(id=int(fav_id))
+            teacher.fav_nums += 1
+            teacher.save()
 
 
 # 讲师列表
@@ -228,6 +270,9 @@ class TeacherListView(View):
 class TeacherDetailView(View):
     def get(self, request, teacher_id):
         teacher = Teacher.objects.get(id=teacher_id)
+        # 教师页面点击增加
+        teacher.click_nums += 1
+        teacher.save()
         teacher_courses = teacher.course_set.all()
         org = teacher.org
         # 讲师排行
