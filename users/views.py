@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.views.generic.base import View
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import UserProfile, EmailVerifyRecord
+from .models import UserProfile, EmailVerifyRecord, Banner
 from .forms import LoginForm, RegisterForm, ForgetPasswordForm, ModifyPasswordForm, \
     UploadImageForm, UserInfoForm
 from operation.models import UserCourse, UserFavorite, UserMessage
@@ -331,6 +331,25 @@ class MyMessageView(LoginRequiredMixin, View):
         page_messages = p.page(page)
         return render(request, 'users/usercenter-message.html', {
             'page_messages': page_messages,
+        })
+
+
+# 首页
+class IndexView(View):
+    def get(self, request):
+        # 大轮播图
+        all_banners = Banner.objects.all().order_by('index')[:5]
+        # 课程轮播图
+        banner_courses = Course.objects.filter(is_banner=True)[:3]
+        # 课程列表
+        course_list = Course.objects.filter(is_banner=False)[:6]
+        # 课程机构
+        course_org_list = CourseOrg.objects.all()[:15]
+        return render(request, 'index.html', {
+            'all_banners': all_banners,
+            'banner_courses': banner_courses,
+            'course_list': course_list,
+            'course_org_list': course_org_list,
         })
 
 

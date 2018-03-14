@@ -21,12 +21,12 @@ import xadmin
 
 from .settings import MEDIA_ROOT
 from users.views import LoginView, RegisterView, ActiveUserView, ForgetPasswordView, \
-    ResetPasswordView, ModifyPasswordView, LogoutView
+    ResetPasswordView, ModifyPasswordView, LogoutView, IndexView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('media/<path:path>/', serve, {'document_root': MEDIA_ROOT}),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
