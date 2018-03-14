@@ -40,6 +40,7 @@ urlpatterns = [
     path('organization/', include('organization.urls')),
     path('courses/', include('courses.urls')),
     path('users/', include('users.urls')),
+    path('ueditor/', include('DjangoUeditor.urls'))
 ]
 
 handler403 = permission_denied

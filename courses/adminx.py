@@ -7,6 +7,8 @@ class CourseAdmin(object):
     list_display = ['name', 'describe', 'detail', 'degree', 'learn_time', 'students']
     search_fields = ['name', 'describe', 'detail', 'degree', 'students']
     list_filter = ['name', 'describe', 'detail', 'degree', 'learn_time', 'students']
+    # 富文本
+    style_fields = {'detail': 'ueditor'}
 
 
 class LessonAdmin(object):

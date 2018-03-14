@@ -13,6 +13,8 @@ class CourseOrgAdmin(object):
     list_display = ['name', 'describe', 'category', 'click_nums', 'fav_nums', 'add_time']
     search_fields = ['name', 'describe', 'category', 'click_nums', 'fav_nums']
     list_filter = ['name', 'describe', 'category', 'click_nums', 'fav_nums', 'city__name', 'address', 'add_time']
+    # 富文本
+    style_fields = {'describe': 'ueditor'}
 
 
 class TeacherAdmin(object):

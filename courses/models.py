@@ -2,7 +2,7 @@ from django.db import models
 from datetime import datetime
 from organization.models import CourseOrg, Teacher
 from utils.storage import ImageStorage
-
+from DjangoUeditor.models import UEditorField
 # Create your models here.
 
 
@@ -17,7 +17,14 @@ class Course(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='授课讲师', null=True, blank=True)
     name = models.CharField(max_length=50, verbose_name=u'课程名称')
     describe = models.CharField(max_length=300, verbose_name=u'课程描述')
-    detail = models.TextField(verbose_name=u'课程详情')
+    detail = UEditorField(
+        verbose_name=u'课程详情',
+        width='100%',
+        toolbars='mini',
+        imagePath='courses/ueditor/%(rnd)s_%(datetime)s.%(extname)s',
+        filePath='courses/ueditor/%(rnd)s_%(datetime)s.%(extname)s',
+        default=''
+    )
     degree = models.CharField(max_length=2, choices=DEGREE_CHOICES, verbose_name=u'课程难度')
     learn_time = models.IntegerField(default=0, verbose_name=u'学习时长(分钟)')
     students = models.IntegerField(default=0, verbose_name=u'学习人数')

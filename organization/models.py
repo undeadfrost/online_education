@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import models
 
 from utils.storage import ImageStorage
+from DjangoUeditor.models import UEditorField
 
 # Create your models here.
 
@@ -28,7 +29,14 @@ class CourseOrg(models.Model):
         ('personal', u'个人')
     )
     name = models.CharField(max_length=50, verbose_name=u'机构名称')
-    describe = models.TextField(verbose_name=u'机构描述')
+    describe = UEditorField(
+        verbose_name=u'机构描述',
+        width='100%',
+        toolbars='mini',
+        imagePath='org/ueditor/%(rnd)s_%(datetime)s.%(extname)s',
+        filePath='org/ueditor/%(rnd)s_%(datetime)s.%(extname)s',
+        default=''
+    )
     click_nums = models.IntegerField(default=0, verbose_name=u'点击数')
     fav_nums = models.IntegerField(default=0, verbose_name=u'收藏数')
     image = models.ImageField(
