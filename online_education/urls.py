@@ -21,7 +21,8 @@ import xadmin
 
 from .settings import MEDIA_ROOT
 from users.views import LoginView, RegisterView, ActiveUserView, ForgetPasswordView, \
-    ResetPasswordView, ModifyPasswordView, LogoutView, IndexView
+    ResetPasswordView, ModifyPasswordView, LogoutView, IndexView, page_not_found, \
+    page_error, permission_denied
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,3 +41,8 @@ urlpatterns = [
     path('courses/', include('courses.urls')),
     path('users/', include('users.urls')),
 ]
+
+handler403 = permission_denied
+handler404 = page_not_found
+handler500 = page_error
+

@@ -25,7 +25,7 @@ SECRET_KEY = 'wq&kxj)#0w+bjq#@m4bgc(b5uofnc62ce4dj0v*0fzinlaj-x_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -162,4 +162,5 @@ PAGINATION_SETTINGS = {
     'MARGIN_PAGES_DISPLAYED': 2,
     'SHOW_FIRST_PAGE_WHEN_INVALID': True,
 }
+
 
