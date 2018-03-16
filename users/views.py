@@ -340,12 +340,12 @@ class IndexView(View):
         # 大轮播图
         all_banners = Banner.objects.all().order_by('index')[:5]
         # 课程轮播图
-        banner_courses = Course.objects.filter(is_banner=True)[:3]
+        banner_courses = Course.objects.filter(is_banner=True).order_by('-add_time')[:3]
         # 课程列表
         course_list = Course.objects.filter(is_banner=False)[:6]
         # 课程机构
         course_org_list = CourseOrg.objects.all()[:15]
-        return render(request, 'index.html', {
+        return render(request, 'index_cp.html', {
             'all_banners': all_banners,
             'banner_courses': banner_courses,
             'course_list': course_list,

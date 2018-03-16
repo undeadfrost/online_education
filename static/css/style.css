@@ -1513,7 +1513,7 @@ textarea:focus {
     width: 1200px;
 }
 
-/*焦点图 CSS*/
+/*鐒︾偣鍥� CSS*/
 .imgslide {
     height: 478px;
     width: 880px;
@@ -1995,9 +1995,9 @@ textarea:focus {
 }
 
 .module1 .imgslide2 {
-    width: 470px;
-    height: 100%;
-    overflow: hidden;
+    width: 470px !important;
+    height: 300px !important;
+    overflow: hidden !important;
 }
 
 .group_list .box:hover .imgslide2 img {
@@ -3449,7 +3449,6 @@ footer .footer .line {
 
 .butler_list .cont .c7, .companyranklist .cont .c8 {
     background: url(../images/pic7.png) no-repeat left center;
-    text-indent: 20px;
 }
 
 .butler_list .cont .c8, .companyranklist .cont .c7 {
@@ -3519,11 +3518,11 @@ footer .footer .line {
 }
 
 .butler_list_box .right dd {
-    /* width: 80px; */
+    width: 80px;
     height: 50px;
     margin-top: 10px;
     line-height: 150%;
-    float: left;
+    float: right;
 }
 
 .picbig.key {
@@ -6783,7 +6782,7 @@ footer .footer .line {
     margin: 20px;
 }
 
-/*支付*/
+/*鏀粯*/
 .ordersub {
     height: 80px;
     width: 96%;
@@ -8139,7 +8138,7 @@ table .upload-btn {
     width: 730px;
 }
 
-/**管家详情公司信息**/
+/**绠″璇︽儏鍏徃淇℃伅**/
 
 .butler-diaryd-box {
     padding-bottom: 100px;
@@ -8423,9 +8422,9 @@ table .upload-btn {
     bottom: 15px;
 }
 
-/**公共样式start**/
+/**鍏叡鏍峰紡start**/
 
-/**按钮**/
+/**鎸夐挳**/
 .btn-center {
     text-align: center;
     margin-bottom: 50px;
@@ -8477,7 +8476,7 @@ table .upload-btn {
     margin: 0 auto 60px;
 }
 
-/**上传**/
+/**涓婁紶**/
 
 .hei100 {
     height: 100px !important;
@@ -8560,7 +8559,7 @@ table .upload-btn {
     cursor: pointer;
 }
 
-/**公共样式end**/
+/**鍏叡鏍峰紡end**/
 .comp-img-box {
     position: relative;
     display: block;
@@ -8601,7 +8600,7 @@ table .upload-btn {
     margin-bottom: 6px;
 }
 
-/**帮助中心**/
+/**甯姪涓績**/
 
 .help_content {
     color: #5c5c5c;
@@ -8671,7 +8670,7 @@ table .upload-btn {
 .help_content .leftsubnav .bigclass a {
     color: #5c5c5c;
     display: inline-block;
-    font-family: "微软雅黑";
+    font-family: "寰蒋闆呴粦";
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -8697,7 +8696,7 @@ table .upload-btn {
 .help_content .rightcontent .title h3, .detail h3 {
     background: #f4f4f4;
     color: #717171;
-    font-family: "黑体";
+    font-family: "榛戜綋";
     font-size: 18px;
     font-weight: normal;
     line-height: 36px;
