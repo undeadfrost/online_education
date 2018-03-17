@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}<title>公开课列表 - 慕学在线网</title>{% endblock %}
+{% block title %}<title>公开课列表</title>{% endblock %}
 {% block custom_bread %}
 <section>
     <div class="wp">
@@ -33,16 +33,16 @@
                                          src="{{ MEDIA_URL }}{{ course.image }}"/>
                                 </a>
                                 <div class="des">
-                                    <a href="course-detail.html">
+                                    <a href="{% url 'courses:course_detail' course.id %}">
                                         <h2>{{ course.name }}</h2>
                                     </a>
                                     <span class="fl">时长：<i class="key">{{ course.learn_time }}</i></span>
                                     <span class="fr">学习人数：{{ course.students }}</span>
                                 </div>
                                 <div class="bottom">
-                                    <a href="course-detail.html"><span class="fl">{{ course.course_org.name }}</span></a>
+                                    <a href="{% url 'organization:org_home' course.course_org.id %}"><span class="fl">{{ course.course_org.name }}</span></a>
                                     <span class="star fr  notlogin
-                                        " data-favid="15">
+                                        " data-favid="{{ course.fav_nums }}">
                                         {{ course.fav_nums }}
                                     </span>
                                 </div>
@@ -85,7 +85,7 @@
                             </a>
                         </dt>
                         <dd>
-                            <a target="_blank" href=""><h2>{{ course.name }}</h2></a>
+                            <a target="_blank" href="{% url 'courses:course_detail' course.id %}"><h2>{{ course.name }}</h2></a>
                             <span class="fl">难度：<i class="key">{{ course.get_degree_display }}</i></span>
                         </dd>
                     </dl>
