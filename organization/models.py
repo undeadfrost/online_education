@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from django.db import models
 
 from utils.storage import ImageStorage
@@ -65,6 +65,7 @@ class Teacher(models.Model):
     org = models.ForeignKey(CourseOrg, on_delete=models.CASCADE, verbose_name=u'所属机构')
     name = models.CharField(max_length=20, verbose_name=u'教师名称')
     work_years = models.IntegerField(default=0, verbose_name=u'工作年限')
+    birthday = models.DateField(verbose_name=u'生日', null=True, blank=True)
     work_company = models.CharField(max_length=50, verbose_name=u'就职公司')
     work_position = models.CharField(max_length=50, verbose_name=u'公司职位')
     points = models.CharField(max_length=100, verbose_name=u'教学特点')
@@ -82,6 +83,18 @@ class Teacher(models.Model):
     class Meta:
         verbose_name = u'教师'
         verbose_name_plural = verbose_name
+
+    def get_age(self):
+        today = date.today()
+        age = today.year - self.birthday.year
+        if today.month < self.birthday.month:
+            age -= 1
+        elif today.month == self.birthday.month:
+            if today.day < self.birthday.day:
+                age -= 1
+        if age < 0:
+            age = 0
+        return age
 
     def __str__(self):
         return "[{0}]的教师: {1}".format(self.org, self.name)

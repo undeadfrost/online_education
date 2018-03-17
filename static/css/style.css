@@ -3320,7 +3320,7 @@ footer .footer .line {
 }
 
 .butler_list_box .picpic, .butler_detail_list .picpic {
-    margin-bottom: 20px;
+    margin-top: 25px;
     width: 100px;
     height: 100px;
     overflow: hidden;
@@ -3620,16 +3620,14 @@ footer .footer .line {
     border-radius: 3px;
     cursor: pointer;
     text-indent: 18px;
-    margin-right: 5px;
-    margin-top: 0;
-    width: 95px;
+    margin-left: 30px;
+    width: 130px;
     height: 30px;
     line-height: 30px;
     overflow: hidden;
     color: #fff;
     text-align: center;
     display: block;
-    float: left;
 }
 
 .butler_detail_list .btn .btn1 {

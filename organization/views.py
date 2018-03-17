@@ -243,6 +243,13 @@ class AddFavView(View):
 class TeacherListView(View):
     def get(self, request):
         all_teachers = Teacher.objects.all()
+        # 搜索
+        search_keywords = request.GET.get('keywords', '')
+        if search_keywords:
+            all_teachers = all_teachers.filter(Q(name__icontains=search_keywords) |
+                                               Q(work_company__icontains=search_keywords) |
+                                               Q(work_position__icontains=search_keywords) |
+                                               Q(points__icontains=search_keywords))
         # 进行排序
         sort = request.GET.get('sort', '')
         if sort == 'hot':
@@ -263,6 +270,7 @@ class TeacherListView(View):
             'teacher_nums': teacher_nums,
             'sort': sort,
             'rank_teachers': rank_teachers,
+            'search_keywords': search_keywords,
         })
 
 
