@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.http import HttpResponse
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from .models import CourseOrg, CityDict, Teacher
 from .forms import UserAskForm
@@ -42,7 +42,7 @@ class OrgListView(View):
             if sort == 'students':
                 org_all = org_all.order_by('-students')
             elif sort == 'courses':
-                org_all = org_all.order_by('-course_nums')
+                org_all = org_all.annotate(course_count=Count('course')).order_by('-course_count')
         # 获取符合条件的机构总数
         org_nums = org_all.count()
         # 分页，每页5条数据
@@ -84,7 +84,7 @@ class OrgHomeView(View):
         # 机构页面点击增加
         course_org.click_nums += 1
         course_org.save()
-        teacher_list = course_org .teacher_set.all()[:2]
+        teacher_list = course_org .teacher_set.all()[:4]
         course_list = course_org .course_set.all()[:4]
         # 必须是用户已登录我们才需要判断。
         has_fav = False
@@ -139,7 +139,7 @@ class OrgTeacherListView(View):
             page = request.GET.get('page', 1)
         except PageNotAnInteger:
             page = 1
-        p = Paginator(all_teachers, per_page=1, request=request)
+        p = Paginator(all_teachers, per_page=5, request=request)
         page_teachers = p.page(page)
         # 必须是用户已登录我们才需要判断。
         has_fav = False
@@ -151,6 +151,7 @@ class OrgTeacherListView(View):
             'page_teachers': page_teachers,
             'current_page': current_page,
             'has_fav': has_fav,
+            'current_page': current_page,
         })
 
 

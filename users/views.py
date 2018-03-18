@@ -177,7 +177,10 @@ class UserInfoView(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     def get(self, request):
-        return render(request, 'users/usercenter-info.html')
+        current_page = 'info'
+        return render(request, 'users/usercenter-info.html', {
+            'current_page': current_page,
+        })
 
     def post(self, request):
         user_info_form = UserInfoForm(request.POST, instance=request.user)
@@ -265,10 +268,12 @@ class MyCourseView(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     def get(self, request):
+        current_page = 'courses'
         user_courses = UserCourse.objects.filter(user=request.user)
         courses = [user_course.course for user_course in user_courses]
         return render(request, 'users/usercenter-mycourse.html', {
-            'courses': courses
+            'courses': courses,
+            'current_page': current_page,
         })
 
 
@@ -278,15 +283,25 @@ class MyFavView(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     def get(self, request, fav_type):
+        current_page = 'fav'
         if fav_type == 1:
             fav_courses = self.fav_course(request)
-            return render(request, 'users/usercenter-fav-course.html', {'fav_courses': fav_courses})
+            return render(request, 'users/usercenter-fav-course.html', {
+                'fav_courses': fav_courses,
+                'current_page': current_page,
+            })
         if fav_type == 2:
             fav_orgs = self.fav_org(request)
-            return render(request, 'users/usercenter-fav-org.html', {'fav_orgs': fav_orgs})
+            return render(request, 'users/usercenter-fav-org.html', {
+                'fav_orgs': fav_orgs,
+                'current_page': current_page,
+            })
         if fav_type == 3:
             fav_teachers = self.fav_teacher(request)
-            return render(request, 'users/usercenter-fav-teacher.html', {'fav_teachers': fav_teachers})
+            return render(request, 'users/usercenter-fav-teacher.html', {
+                'fav_teachers': fav_teachers,
+                'current_page': current_page,
+            })
 
     # 获取课程收藏列表
     def fav_course(self, request):
@@ -316,6 +331,7 @@ class MyMessageView(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     def get(self, request):
+        current_page = 'message'
         all_messages = UserMessage.objects.filter(user=request.user.id)
         # 进入消息页面，清空未读消息
         unread_messages = UserMessage.objects.filter(user=request.user.id, has_read=False)
@@ -331,6 +347,7 @@ class MyMessageView(LoginRequiredMixin, View):
         page_messages = p.page(page)
         return render(request, 'users/usercenter-message.html', {
             'page_messages': page_messages,
+            'current_page': current_page,
         })
 
 
@@ -345,7 +362,7 @@ class IndexView(View):
         course_list = Course.objects.filter(is_banner=False)[:6]
         # 课程机构
         course_org_list = CourseOrg.objects.all()[:15]
-        return render(request, 'index_cp.html', {
+        return render(request, 'index.html', {
             'all_banners': all_banners,
             'banner_courses': banner_courses,
             'course_list': course_list,

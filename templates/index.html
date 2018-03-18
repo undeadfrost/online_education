@@ -2,12 +2,7 @@
 
 {% load staticfiles %}
 
-    {% block title %}
-    <title>首页 - Frost教育网</title>
-    {% endblock %}
-
-{% block custom_bread %}
-{% endblock %}
+{% block title %}<title>首页 | mtianyan慕课小站</title>{% endblock %}
 
 {% block main_content %}
 <div class="banner">
@@ -70,10 +65,11 @@
                     <div class="module1_2 box">
                         <div class="imgslide2">
                             <ul class="imgs">
-                                {% for course in banner_courses %}
+                                {% for banner_course in banner_courses %}
                                 <li>
-                                    <a href="{% url 'courses:course_detail' course.id %}">
-                                        <img width="470" height="300" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                                    <a href="{% url 'courses:course_detail' banner_course.id %}">
+                                        <img style="width: 470px; height: 300px;"
+                                             src="{{ MEDIA_URL }}{{ banner_course.image }}"/>
                                     </a>
                                 </li>
                                 {% endfor %}

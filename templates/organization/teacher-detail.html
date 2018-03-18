@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="bottom">
                                     <a href="{% url 'organization:org_home' course.course_org.id %}"><span class="fl">{{ course.course_org.name }}</span></a>
-                                    <span class="star fr  notlogin" data-favid="{{ course.fav_nums }}">{{ course.fav_nums }}</span>
+                                    <span class="star fr  notlogin">{{ course.fav_nums }}</span>
                                 </div>
                             </div>
                             {% endfor %}
@@ -145,7 +145,7 @@ function add_fav(current_elem, fav_id, fav_type){
         success: function(data) {
             if(data.status == 'fail'){
                 if(data.msg == '用户未登录'){
-                    window.location.href="{% url 'index' %}";
+                    window.location.href="{% url 'login' %}?next={{ request.path }}";
                 }else{
                     alert(data.msg)
                 }

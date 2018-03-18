@@ -20,7 +20,7 @@
 <body>
 <section class="headerwrap">
     <header>
-        <div class=" header">
+        <div class="header">
             <div class="top">
                 <div class="wp">
                     <div class="fl"><p>服务电话：<b>33333333</b></p></div>
@@ -48,7 +48,7 @@
                     </div>
                     {% else %}
                     <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
-                    <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
+                    <a style="color:white" class="fr loginbtn" href="{% url 'login' %}?next={{ request.path }}">登录</a>
                     {% endif %}
 
                 </div>
@@ -73,7 +73,6 @@
                     </div>
                 </div>
             </div>
-
 
             <nav>
                 <div class="nav">

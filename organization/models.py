@@ -49,7 +49,6 @@ class CourseOrg(models.Model):
     city = models.ForeignKey(CityDict, on_delete=models.CASCADE, verbose_name=u'所在城市')
     category = models.CharField(choices=ORG_CHOICES, default='train', max_length=20, verbose_name=u'机构类别')
     students = models.IntegerField(default=0, verbose_name=u'学习人数')
-    course_nums = models.IntegerField(default=0, verbose_name=u'课程数')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
 
     class Meta:
