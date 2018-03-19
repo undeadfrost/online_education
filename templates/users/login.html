@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load course_tags %}
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <title>慕学在线网登录</title>
+    <title>Frost网络学堂在线登录</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 </head>
@@ -33,10 +33,15 @@
             </div>
             <div class="fl slide">
                 <div class="imgslide">
+                    {% get_course_banners as course_banners %}
                     <ul class="imgs">
-                        <li><a href=""><img width="483" height="472" src="{% static 'images/mysql.jpg' %}"/></a></li>
-                        <li><a href=""><img width="483" height="472" src="{% static 'images/mysql.jpg' %}"/></a></li>
-                        <li><a href=""><img width="483" height="472" src="{% static 'images/mysql.jpg' %}"/></a></li>
+                        {% for course in course_banners %}
+                        <li>
+                            <a href="{% url 'courses:course_detail' course.id %}">
+                                <img width="483" height="472" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                            </a>
+                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="unslider-arrow prev"></div>
