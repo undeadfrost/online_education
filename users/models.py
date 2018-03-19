@@ -23,6 +23,7 @@ class UserProfile(AbstractUser):
     mobile = models.CharField(max_length=11, verbose_name=u'电话', null=True, blank=True)
     # 头像
     image = models.ImageField(
+        verbose_name=u'头像',
         upload_to='image/%Y/%m',
         default='image/default.png',
         max_length=100,

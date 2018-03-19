@@ -31,6 +31,9 @@ class CourseComments(models.Model):
         verbose_name = u'课程评论'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return '用户({0})对于《{1}》 评论 :'.format(self.user, self.course)
+
 
 # 用户收藏
 class UserFavorite(models.Model):

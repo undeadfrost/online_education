@@ -40,7 +40,7 @@ class Course(models.Model):
     tag = models.CharField(max_length=20, default=u'', verbose_name=u'课程标签')
     you_need_now = models.CharField(max_length=300, verbose_name=u'课程须知', default=u'好好学习，天天向上')
     teacher_cell = models.CharField(max_length=300, verbose_name=u'老师告诉你', default=u'老师是好人')
-    is_banner = models.BooleanField(default=False, verbose_name=u'是否轮播')
+    is_banner = models.BooleanField(verbose_name=u'是否轮播', default=True)
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
 
     def get_learn_users(self):

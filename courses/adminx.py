@@ -9,6 +9,8 @@ class CourseAdmin(object):
     list_filter = ['name', 'describe', 'detail', 'degree', 'learn_time', 'students']
     # 富文本
     style_fields = {'detail': 'ueditor'}
+    # 只读字段
+    readonly_fields = ['students', 'fav_nums', 'click_nums']
 
 
 class LessonAdmin(object):
