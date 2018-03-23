@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load course_tags %}
 {% block title %}<title>公开课列表</title>{% endblock %}
 {% block custom_bread %}
 <section>
@@ -75,6 +76,7 @@
             <div class="right layout">
                 <div class="head">热门课程推荐</div>
                 <div class="group_recommend">
+                    {% get_hot_courses as hot_courses %}
                     {% for course in hot_courses %}
                     <dl>
                         <dt>

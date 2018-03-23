@@ -29,7 +29,7 @@ class CourseListView(View):
                 all_course = all_course.order_by('-click_nums')
         else:
             all_course = all_course.order_by('-add_time')
-        hot_courses = all_course.order_by("-students")[:3]
+        # hot_courses = all_course.order_by("-students")[:3]
         # 分页，每页12条数据
         try:
             page = request.GET.get('page', 1)
@@ -40,7 +40,7 @@ class CourseListView(View):
         return render(request, 'courses/course-list.html', {
             'page_courses': page_courses,
             'sort': sort,
-            'hot_courses': hot_courses,
+            # 'hot_courses': hot_courses,
             'search_keywords': search_keywords,
         })
 
