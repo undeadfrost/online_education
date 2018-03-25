@@ -372,15 +372,26 @@ class IndexView(View):
 
 # 404页面
 def page_not_found(request):
-    return render(request, '404.html')
+    from django.shortcuts import render_to_response
+    response = render_to_response('404.html', {})
+    response.status_code = 404
+    return response
 
 
+# 500页面
 def page_error(request):
-    return render(request, '500.html')
+    from django.shortcuts import render_to_response
+    response = render_to_response('500.html', {})
+    response.status_code = 500
+    return response
 
 
+# 403页面
 def permission_denied(request):
-    return render(request, '403.html')
+    from django.shortcuts import render_to_response
+    response = render_to_response('403.html', {})
+    response.status_code = 403
+    return response
 
 
 def user_login(request):
