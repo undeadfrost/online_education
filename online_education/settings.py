@@ -91,9 +91,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'online_education',
-        'USER': 'libo',
+        'USER': 'root',
         'PASSWORD': 'libo1121X',
-        'HOST': '120.78.187.72',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
@@ -150,11 +150,13 @@ AUTHENTICATION_BACKENDS = (
 
 # 发送邮件设置
 EMAIL_HOST = 'smtp.163.com'
-EMAIl_POST = 25
+EMAIl_POST = 465
 EMAIL_HOST_USER = '13720737094@163.com'
 EMAIL_HOST_PASSWORD = 'libo1234'
+# EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
 EMAIL_FROM = EMAIL_HOST_USER
+
 
 # 上传文件路径
 MEDIA_URL = '/media/'

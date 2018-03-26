@@ -84,7 +84,7 @@ class RegisterView(View):
             password = request.POST.get('password', '')
 
             if UserProfile.objects.filter(email=email):
-                return render(request, 'users/register.html', {'msg': '该邮箱已注册'})
+                return render(request, 'users/register.html', {'msg': '该邮箱已注册', 'register_form': register_form})
 
             user_profile = UserProfile()
             user_profile.username = email
