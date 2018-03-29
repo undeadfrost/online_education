@@ -15,7 +15,7 @@ from courses.models import Course
 from utils import email_send
 
 from django.db.models import Q
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from pure_pagination import Paginator, PageNotAnInteger
 import json
 # Create your views here.
 
