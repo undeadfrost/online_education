@@ -98,7 +98,7 @@
                                 <li>
                                     <span><i class="aui-iconfont aui-icon-file"></i>{{ resource.name }}</span>
                                     <a href="{{ MEDIA_URL }}{{ resource.download }}" class="downcode"
-                                       target="_blank" download="" data-id="274" title="">下载</a>
+                                       target="_blank" download="" data-id="274" title="{{ resource.name }}">下载</a>
                                 </li>
                                 {% endfor %}
                             </ul>

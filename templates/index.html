@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block title %}<title>首页 | mtianyan慕课小站</title>{% endblock %}
+{% block title %}<title>首页 | frost在线课程</title>{% endblock %}
 
 {% block main_content %}
 <div class="banner">
@@ -85,13 +85,13 @@
                         </a>
                         <div class="des">
                             <a href="{% url 'courses:course_detail' course.id %}">
-                                <h2 title="django入门">{{ course.name }}</h2>
+                                <h2 title="{{ course.name }}">{{ course.name }}</h2>
                             </a>
                             <span class="fl">难度：<i class="key">{{ course.get_degree_display }}</i></span>
                             <span class="fr">学习人数：{{ course.students }}</span>
                         </div>
                         <div class="bottom">
-                            <span class="fl" title="慕课网">{{ course.course_org.name }}</span>
+                            <span class="fl" title="{{ course.course_org.name }}">{{ course.course_org.name }}</span>
                             <span class="star fr">{{ course.fav_nums }}</span>
                         </div>
                     </div>

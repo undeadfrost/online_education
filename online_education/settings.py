@@ -92,9 +92,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'online_education',
         'USER': 'root',
-        'PASSWORD': 'libo1121X',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'PORT': '6666',
     }
 }
 
@@ -149,11 +149,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # 发送邮件设置
-EMAIL_HOST = 'smtp.163.com'
-EMAIl_POST = 465
-EMAIL_HOST_USER = '13720737094@163.com'
-EMAIL_HOST_PASSWORD = 'libo1234'
-# EMAIL_USE_SSL = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sina.com.cn'
+EMAIl_POST = 587
+EMAIL_HOST_USER = 'undeadfrost@sina.com'
+EMAIL_HOST_PASSWORD = 'libo1121X@'
+# EMAIL_USE_SSL = True
 EMAIL_USE_TLS = True
 EMAIL_FROM = EMAIL_HOST_USER
 
